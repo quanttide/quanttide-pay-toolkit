@@ -1,7 +1,7 @@
 # quanttide-pay-toolkit 状态交接（工具库级）
 
-> 交接日期：2026-08-03 ｜ 最近提交：`bf29189`（本地 `main`，领先 `origin/main` 2 个提交）
-> 仓库：`packages/quanttide-pay-toolkit`（monorepo `quanttide-pay` 内）
+> 交接日期：2026-08-06（独立仓库化）｜ 最近提交：`7042b0f`（初始导入，已推送 `origin/main`）
+> 仓库：[`quanttide/quanttide-pay-toolkit`](https://github.com/quanttide/quanttide-pay-toolkit)，作为子模块挂载于 `quanttide-pay` 的 `packages/quanttide-pay-toolkit`
 
 ## 1. 总体状态
 

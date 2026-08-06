@@ -1,7 +1,7 @@
 # quanttide-pay-toolkit Go 基础库 · 状态交接
 
-> 交接日期：2026-08-03 ｜ 最近提交：`b5b2eba`（ROADMAP 对齐）｜ 分支：`main`（领先 `origin/main` 3 个提交）
-> 仓库：`packages/quanttide-pay-toolkit/packages/go`（monorepo `quanttide-pay` 内）
+> 交接日期：2026-08-06（随工具库独立仓库化）｜ 最近提交：`7042b0f`（工具库初始导入）｜ 分支：`main`（已推送）
+> 仓库：`quanttide/quanttide-pay-toolkit` 的 `packages/go` 子目录（Go 1.26，依赖 go-money v1.0.15）
 
 ## 1. 总体状态
 
