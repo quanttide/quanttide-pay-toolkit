@@ -1,6 +1,6 @@
 # Idempotency 设计决策记录
 
-`pkg/idempotency` 的设计决策与演进记录（按时间序）。本文件即该包的正式决策记录。契约决策原文见 data/report `technical-decisions/idempotency-key-contract.md`。
+`pkg/idempotency` 的设计决策与演进记录（按时间序）。本文件即该包的正式决策记录。契约决策原文见 data/report `decisions/idempotency-key-contract.md`。
 
 ## D1 幂等键构造契约化（2026-08-03）
 
