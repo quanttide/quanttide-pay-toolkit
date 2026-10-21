@@ -53,7 +53,7 @@ go test ./contracttest
 
 | 文档 | 内容 |
 |------|------|
-| [ROADMAP.md](ROADMAP.md) | 任务状态与待定决策（G1–G6） |
+| [ROADMAP.md](docs/dev-guide/roadmap.md) | 任务状态与待定决策（G1–G6） |
 | [STATUS.md](STATUS.md) | 交接状态与待办优先事项 |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | 包纪律、契约测试纪律、文档同步清单 |
 | [AGENTS.md](AGENTS.md) | agent 工作索引与 harness 纪律 |
