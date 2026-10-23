@@ -23,7 +23,7 @@
 
 **背景**：渠道原始码 → 统一状态的翻译此前在 provider 适配器本地维护（微信透传原生码、支付宝本地 map），没有权威位置。
 
-**决策**：`pkg/status` 新增 `ParseWechatTradeState` / `ParseAlipayTradeStatus`——渠道原始码 → 统一状态；provider `channel/adapters.go` 删除本地映射表，改用工具库映射。
+**决策**：`pkg/status` 新增 `ParseWechatTradeState` / `ParseAlipayTradeStatus`——渠道原始码 → 统一状态；provider `channel/adapters.go` 删除本地映射表，改用标准库映射。
 
 **理由**：翻译收敛到单一权威位置；新渠道码出现时只需改一处与对应测试。
 
@@ -77,14 +77,14 @@
 
 **背景**：状态契约的归属存疑——单独模块，还是放在各业务域（order / transaction / billing / channel）？
 
-**决策**：作为跨应用共享契约放工具库 `pkg/status`（与 `pkg/money`、`pkg/ledger` 同级），不放入任何业务域，也不放应用内 `internal/core`。
+**决策**：作为跨应用共享契约放标准库 `pkg/status`（与 `pkg/money`、`pkg/ledger` 同级），不放入任何业务域，也不放应用内 `internal/core`。
 
 **理由**：
 
 - 状态是聚合（支付单/退款单）的**值对象**与生命周期词汇，不是某个聚合的私有状态：`PaymentStatus` 被 channel（渠道翻译）、order（流转）、transaction/billing（对 `succeeded` 等事件反应）共用；`RefundStatus` 不属于 order——放入业务域会把同一契约劈成两半
 - 各域各自定义 = 每处边界多一层翻译，语义漂移必然复发（本决策要解决的正是两处映射表漂移）
 - 依赖方向：状态若放 order 域，channel 为取枚举需反向依赖 order，适配器依赖整个订单域，方向错误
-- Go `internal/` 规则：放应用内 `internal/core` 则支付网关、账务等后续应用永远无法引用，与跨应用复用目标冲突（与 `pkg/money` 提炼至工具库同一原则）
+- Go `internal/` 规则：放应用内 `internal/core` 则支付网关、账务等后续应用永远无法引用，与跨应用复用目标冲突（与 `pkg/money` 提炼至标准库同一原则）
 - 状态机合法流转（如 succeeded 后才能 refund）与枚举同处一地，不变量有单一落点
 
 **影响**：provider 经 go.mod `replace` 本地依赖；"枚举 + 解析 + 校验"三合一，"渠道状态变化"这个变化点集中为一个测试失败/编译错误，而不是散落的静默逻辑。

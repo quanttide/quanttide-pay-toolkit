@@ -1,13 +1,13 @@
 # quanttide-pay-toolkit Go 基础库 · 状态交接
 
-> 交接日期：2026-08-06（随工具库独立仓库化）｜ 最近提交：`7042b0f`（工具库初始导入）｜ 分支：`main`（已推送）
+> 交接日期：2026-08-06（随标准库独立仓库化）｜ 最近提交：`7042b0f`（标准库初始导入）｜ 分支：`main`（已推送）
 > 仓库：`quanttide/quanttide-pay-toolkit` 的 `packages/go` 子目录（Go 1.26，依赖 go-money v1.0.15）
 
 ## 1. 总体状态
 
 - **模块**：`github.com/quanttide/quanttide-pay-toolkit/packages/go`，Go 1.26，唯一依赖 `go-money v1.0.15`（零传递依赖）
-- **定位**：支付领域主干（会算钱、会定状态、会推导结果的纯逻辑）抽离到工具库；实体、gorm 存储、事务编排、渠道适配留在应用壳（`apps/qtcloud-pay`）
-- **git 状态**：工具库全部改动已提交（最近 3 个：`c4d9753` 状态契约、`c2b6910` httpapi/middleware、`b5b2eba` ROADMAP）；**未推送**，`apps/qtcloud-pay` 子模块有大量改动未提交（见 §6）
+- **定位**：支付领域主干（会算钱、会定状态、会推导结果的纯逻辑）抽离到标准库；实体、gorm 存储、事务编排、渠道适配留在应用壳（`apps/qtcloud-pay`）
+- **git 状态**：标准库全部改动已提交（最近 3 个：`c4d9753` 状态契约、`c2b6910` httpapi/middleware、`b5b2eba` ROADMAP）；**未推送**，`apps/qtcloud-pay` 子模块有大量改动未提交（见 §6）
 - **验证基线**：`go test ./...` 与 `go vet ./...` 全绿（契约测试、8 个 pkg 测试均通过）；`make lint` 需先安装 golangci-lint，未执行
 
 ## 2. 包清单（`pkg/`）
@@ -23,7 +23,7 @@
 | `httpapi` | HTTP JSON API 公共件 | `WriteJSON` / `WriteError` / `WriteServiceError`（`Mapper`）/ `ParsePagination`（limit 默认 20、上限 100） | ✅ 稳定（新增） |
 | `middleware` | HTTP 通用中间件 | `Logging`（方法/路径/状态码/耗时） | ✅ 稳定（新增） |
 
-## 3. 契约测试（`contracttest` + 工具库根 `tests/fixtures/`）
+## 3. 契约测试（`contracttest` + 标准库根 `tests/fixtures/`）
 
 - **架构**：fixtures（JSON）是契约唯一权威，各语言实现消费同一份即完成多端对齐；`contracttest` 是 Go runner，断言 Go 实现与契约一致
 - **fixtures 现状**（3 份，均全过）：
@@ -52,7 +52,7 @@
 ## 6. 已知问题与待办（接手优先事项）
 
 1. **推送**：本地 `main` 领先 `origin/main` 3 个提交（`c4d9753`、`c2b6910`、`b5b2eba`），需 review 后推送
-2. **子模块**：`apps/qtcloud-pay` 工作区有大量未提交改动（transport/model 改引用工具库 httpapi/money/status/idempotency/billing、删除本地 middleware/logging 与内部测试等），需在子模块仓库内提交并回主仓库更新指针
+2. **子模块**：`apps/qtcloud-pay` 工作区有大量未提交改动（transport/model 改引用标准库 httpapi/money/status/idempotency/billing、删除本地 middleware/logging 与内部测试等），需在子模块仓库内提交并回主仓库更新指针
 3. **G3 收尾**：billing 补 fixtures（抵扣顺序/力度/余额不足/非法金额）+ `dev-guide/billing.md` 决策记录
 4. **`order` 包边界**：当前仅订单号生成；G5 实施前勿在 provider 侧堆积订单模型，避免与契约演进冲突
 5. **`middleware.Logging` 局限**：`statusRecorder` 仅记录 WriteHeader 显式写入的状态码，隐式 200（未调用 WriteHeader）记录为默认 200，行为正确但 `Flush`/`Hijack` 未透传——如接入 WebSocket/流式响应需先扩展

@@ -1,6 +1,6 @@
 # quanttide-pay-toolkit Go 基础库
 
-量潮支付工程工具箱的 Go 基础库，金额值对象基于 [go-money](https://github.com/Rhymond/go-money)（零传递依赖），提供支付领域通用基础能力。遵循 Go 社区标准布局：`pkg/` 为可被外部导入的公共包，`internal/` 为库内部实现，`examples/` 为使用示例。
+量潮支付工程标准库的 Go 基础库，金额值对象基于 [go-money](https://github.com/Rhymond/go-money)（零传递依赖），提供支付领域通用基础能力。遵循 Go 社区标准布局：`pkg/` 为可被外部导入的公共包，`internal/` 为库内部实现，`examples/` 为使用示例。
 
 ## 布局
 
@@ -15,7 +15,7 @@
 | `pkg/httpapi` | HTTP JSON API 公共件：统一响应/错误体、服务错误映射（`Mapper`）、分页解析 |
 | `pkg/middleware` | HTTP 通用中间件：请求日志（方法/路径/状态码/耗时） |
 | `internal/` | 库的内部实现，外部不可导入 |
-| `contracttest/` | 契约测试 Go runner（消费工具库根 `tests/fixtures/`，fixtures 是契约唯一权威） |
+| `contracttest/` | 契约测试 Go runner（消费标准库根 `tests/fixtures/`，fixtures 是契约唯一权威） |
 | `docs/` | 使用指南与契约文档（[`user-guide/money.md`](docs/user-guide/money.md) 为金额转换契约；[`dev-guide/money.md`](docs/dev-guide/money.md) 为设计决策记录） |
 | `examples/` | 使用示例（`go run ./examples/payment`） |
 | `test/` | 集成测试辅助数据/环境（预留，按需扩展） |
@@ -43,7 +43,7 @@ orderNo, err := order.GenerateNow("PAY")
 
 ## 契约测试
 
-共享测试向量（JSON fixtures，工具库根 `tests/fixtures/`）是契约**唯一权威**，各语言实现消费同一份断言一致。Go runner 位于 `contracttest/`：
+共享测试向量（JSON fixtures，标准库根 `tests/fixtures/`）是契约**唯一权威**，各语言实现消费同一份断言一致。Go runner 位于 `contracttest/`：
 
 ```bash
 go test ./contracttest

@@ -1,20 +1,20 @@
-# quanttide-pay-toolkit 状态交接（工具库级）
+# quanttide-pay-toolkit 状态交接（标准库级）
 
 > 交接日期：2026-08-06（独立仓库化）｜ 最近提交：`7042b0f`（初始导入，已推送 `origin/main`）
 > 仓库：[`quanttide/quanttide-pay-toolkit`](https://github.com/quanttide/quanttide-pay-toolkit)，作为子模块挂载于 `quanttide-pay` 的 `packages/quanttide-pay-toolkit`
 
 ## 1. 总体状态
 
-- **多语言工具集**，当前仅 **Go 实现**（`packages/go`）处于活跃开发；多语言方向已定为 **Dart / Rust**（均未实现，对齐暂缓）；仓库内遗留 Python 侧留位（`pyproject.toml`，无 `src/` 实现）
+- **多语言标准库**，当前仅 **Go 实现**（`packages/go`）处于活跃开发；多语言方向已定为 **Dart / Rust**（均未实现，对齐暂缓）；仓库内遗留 Python 侧留位（`pyproject.toml`，无 `src/` 实现）
 - **契约测试架构**：`tests/fixtures/`（JSON）是契约唯一权威，Go runner（`packages/go/contracttest`）消费并断言；多端对齐通过各语言消费同一份 fixtures 完成
-- **git 状态**：工具库全部改动已提交；本地 `main` 领先 `origin/main` 2 个提交（`b5b2eba` ROADMAP 对齐、`bf29189` STATUS 交接）
+- **git 状态**：标准库全部改动已提交；本地 `main` 领先 `origin/main` 2 个提交（`b5b2eba` ROADMAP 对齐、`bf29189` STATUS 交接）
 - **验证基线**：`go test ./...` 与 `go vet ./...` 全绿（Go 模块内）；**Python 侧无测试可跑**（见 §4 待办 2）
 
 ## 2. 目录结构
 
 | 路径 | 说明 |
 |------|------|
-| `README.md` | 工具库概览：Python 使用示例 + Go 库说明 ⚠️（见 §4 待办 1） |
+| `README.md` | 标准库概览：Python 使用示例 + Go 库说明 ⚠️（见 §4 待办 1） |
 | `pyproject.toml` | Python 包配置留位（0.0.1，pytest testpaths=`tests`） |
 | `packages/go/` | Go 实现：`pkg/`（money/ledger/status/idempotency/order/billing/httpapi/middleware）、`contracttest/`、`docs/`（user-guide + dev-guide）、`examples/`；含自身 `ROADMAP.md` 与 `STATUS.md` |
 | `packages/dart/`、`packages/rust/` | 计划中，未创建（多语言对齐暂缓） |
@@ -45,12 +45,12 @@
    - `middleware.Logging` 未透传 `Flush`/`Hijack`（接入流式响应前需扩展）
    - 本地 `main` 未推送
 4. **历史重复提交**：本地历史含 `c4d9753` / `c2b6910`，`origin/main` 的 `60e5959` 为整合版本（同一内容 + README/子模块指针更新）——已推送以 `60e5959` 为准，历史中的重复提交不建议回写，避免与远端分叉
-5. **子模块**：`apps/qtcloud-pay` 工作区仍有未提交改动（transport 改引用工具库等），需在子模块仓库内提交并回主仓库更新指针
+5. **子模块**：`apps/qtcloud-pay` 工作区仍有未提交改动（transport 改引用标准库等），需在子模块仓库内提交并回主仓库更新指针
 
 ## 5. 核心约定（改代码前必读）
 
 - fixtures 是契约**唯一权威**：新增/变更契约先改 fixtures 与 runner，各语言同步；禁止各端自行加状态/语义
 - 金额一律整数分（int64），JSON 形状 `{"amount": 分, "currency": "CNY"}`，禁止浮点
 - 状态取值英文小写字符串，可直接存库；渠道原始码解析未知码必须报错，不用 UNKNOWN 兜底
-- 纯逻辑（值对象/枚举/纯函数）进工具库；实体、gorm 存储、事务编排、渠道适配留在应用壳
+- 纯逻辑（值对象/枚举/纯函数）进标准库；实体、gorm 存储、事务编排、渠道适配留在应用壳
 - 新契约/新包须同步：包文档注释、测试、fixtures（若跨端）、dev-guide 决策记录、README 布局表、ROADMAP 状态

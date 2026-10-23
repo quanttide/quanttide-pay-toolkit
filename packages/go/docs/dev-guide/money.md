@@ -44,15 +44,15 @@
 
 **理由**：静默截断与"零误差"契约冲突；注入点是 go-money 官方支持的定制机制。
 
-**影响**：覆盖是包级全局状态（`init()` 中设置），工具库是唯一设置方，使用时需知晓。
+**影响**：覆盖是包级全局状态（`init()` 中设置），标准库是唯一设置方，使用时需知晓。
 
-## D5 提炼至工具库 pkg/money（2026-08-03）
+## D5 提炼至标准库 pkg/money（2026-08-03）
 
 **背景**：`pkg/money.Cents` 原在 qtcloud-pay provider 内，金额能力需要跨应用复用。
 
 **决策**：提炼至 `quanttide-pay-toolkit` Go 模块，放 `pkg/`（公共）而非 `internal/`；provider 经 go.mod `replace` 本地依赖。
 
-**理由**：Go 的 `internal/` 规则——`internal` 包只能被同模块导入，放在 `internal/` 则 provider（不同模块）永远无法引用，工具库失去意义。工具库 README 布局约定本就声明 `pkg/` 为公共包。
+**理由**：Go 的 `internal/` 规则——`internal` 包只能被同模块导入，放在 `internal/` 则 provider（不同模块）永远无法引用，标准库失去意义。标准库 README 布局约定本就声明 `pkg/` 为公共包。
 
 ## 放弃的方案
 
@@ -61,7 +61,7 @@
 | 自研 `Cents`（元传输 + 纯整数解析） | 传输层单位与内部不一致，换算类 bug 有存在空间；被 D1 取代 |
 | 自研完整 Money 值对象（`Money{分+币种}` + `internal/currency`） | 重复造轮子；单币种场景过度设计 |
 | 元 JSON（按币种小数位格式化，支持 JPY/BHD） | 与 go-money 默认、行业惯例不一致；D1 后无意义 |
-| 完全不用封装（provider 直接用 go-money） | 严格反序列化契约会散落各应用重复实现，与工具库定位冲突（D3） |
+| 完全不用封装（provider 直接用 go-money） | 严格反序列化契约会散落各应用重复实现，与标准库定位冲突（D3） |
 
 ## 实现细节备忘
 

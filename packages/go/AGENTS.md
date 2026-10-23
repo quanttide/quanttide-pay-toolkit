@@ -1,10 +1,10 @@
 # AGENTS（quanttide-pay-toolkit Go 基础库）
 
-面向在 Go 包内工作的编码 agent 的指令。**动手前先读「关键文件」一节**；契约相关改动严格遵守「harness 工作纪律」。路线与交接状态见工具库 [ROADMAP.md](../../docs/dev-guide/roadmap.md) 与 [STATUS.md](../../STATUS.md)。
+面向在 Go 包内工作的编码 agent 的指令。**动手前先读「关键文件」一节**；契约相关改动严格遵守「harness 工作纪律」。路线与交接状态见标准库 [ROADMAP.md](../../docs/dev-guide/roadmap.md) 与 [STATUS.md](../../STATUS.md)。
 
 ## 本包是什么
 
-工具库的 Go 实现（`pkg/`：money/ledger/status/idempotency/order/billing/httpapi/middleware）+ 契约测试 runner（`contracttest/`）+ 设计文档（`docs/`）。fixtures 在工具库根 `tests/fixtures/`（本包相对路径上溯三级）。
+标准库的 Go 实现（`pkg/`：money/ledger/status/idempotency/order/billing/httpapi/middleware）+ 契约测试 runner（`contracttest/`）+ 设计文档（`docs/`）。fixtures 在标准库根 `tests/fixtures/`（本包相对路径上溯三级）。
 
 ## 关键文件（按优先级阅读）
 
